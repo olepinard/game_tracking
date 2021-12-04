@@ -7,7 +7,7 @@ import argparse
 def main(name):
     parser = argparse.ArgumentParser(description='Keep track of a boardgame leaderboard.')
     parser.add_argument('--game', type=str, nargs='+',
-                        help='What game did you play: azul, azul2, tarot (coming soon), '
+                        help='What game did you play: azul, azul_dual, tarot (coming soon), '
                              ' elevator (coming soon), dominion (coming soon)')
     parser.add_argument('--players', type=str, nargs='+',
                         help='who played and what was their score exp. "Octave 102" ')
@@ -24,11 +24,11 @@ def main(name):
     if args.game[0] == 'azul':
         azul(args.players, ranks)
 
-    if args.game[0] == 'azul2':
+    if args.game[0] == 'azul_dual':
         if num == 4:
             azul_two(args.players, ranks)
         else:
-            print("azul2 is for two players only")
+            print("azul_dual is for two players only")
 
 
 def update_csv(game, game_ranks, ranks, game_name):
@@ -87,7 +87,7 @@ def azul(players, ranks):
 
 
 def azul_two(players, ranks):
-    azul_ranks = pd.read_csv("azul2.csv")
+    azul_ranks = pd.read_csv("azul_dual.csv")
     number_of_players = int(len(players) / 2)
 
     game = get_player_standings(players, ranks, azul_ranks, number_of_players)
@@ -95,7 +95,7 @@ def azul_two(players, ranks):
     game = get_escore(game, number_of_players)
     game = azul2_rank(game, number_of_players)
 
-    update_csv(game, azul_ranks, ranks, "azul2")
+    update_csv(game, azul_ranks, ranks, "azul_dual")
 
 def get_player_standings(players, ranks, game_ranks, num):
     game = {
